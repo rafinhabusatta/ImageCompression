@@ -1,4 +1,3 @@
-
 %% algoritmo do agrupamento por kmeans
 function[codebook,ClusterNum]=kmeans_algoritmo(s,L,K)
 % 's' é a celula com os vetores de entrada

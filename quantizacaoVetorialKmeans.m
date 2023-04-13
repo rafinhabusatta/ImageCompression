@@ -3,9 +3,9 @@ function [I_req, SNR, PSNR] = quantizacaoVetorialKmeans(L,K,Img)
 %% compressão por quantização vetorial
 % entrada:-> imagem em tons de cinza
 % -------------------------------------------------------
-%clc;
+clc;
 %clear all;
-%close all;
+close all;
 tic;
 % -------------------------------------------------------
 % parametros de entrada L,K
@@ -49,22 +49,12 @@ elseif r2~=0
 end
 % -------------------------------------------------------
 % prepara os dados e chama o algoritmo do kmeans
+% e salva imagem requantizada na variável de retorno
 I_re = Kmeans_Pre_Post(Img1,L,K);
-% -------------------------------------------------------
 
-% mostra o resultado da quantizacao vetorial com o kmeans
-% para a imagem de entrada
 I_re = uint8(I_re);
 I_req = I_re;
-%figure,imshow(I_re);
-%title('imagem comprimida por quantizacao vetorial kmeans')
-% -------------------------------------------------------
-% mostra a area de memoria ocupada pelas imagens de entrada e saida
 
-% -------------------------------------------------------
-% mostra a taxa de compressao: bits entrada x bits saida
-%fprintf('taxa de compressao (bits de entrada x bits de saida): %.2f  x %d\n', double(numel(Img))/double(K*L+numel(Img1)/L),1);
-%disp('');
 % -------------------------------------------------------
 % calcula o SNR e o PSNR
 SNR = 10*log10(std2(double(Img))^2/std2(double(Img)-double(I_re))^2);
@@ -73,16 +63,6 @@ I_max = max(max(double(Img)));
 I_min = min(min(double(Img)));
 A = (I_max-I_min);
 PSNR = 10*log10((A^2)/(std2(double(Img)-double(I_re))^2));
-
-fprintf('SNR = %.2f (dB)\n', SNR);
-disp('');
-fprintf('PSNR = %.2f (dB)\n',PSNR);
-disp('');
-
-fprintf('tamanho da memoria da imagem de entrada = %d bytes\n', numel(Img));
-disp('');
-fprintf('tamanho da memoria da imagem de saida = %d bytes\n',K*L+numel(Img1)/L);
-disp('');
 
 % -------------------------------------------------------
 toc,
