@@ -1,5 +1,5 @@
 % leitura da imagem colorida peppers.png
-img = imread('peppers.png');
+img = imread('football.jpg');
 figure;
 imshow(img);
 title('Imagem de entrada');
@@ -9,8 +9,8 @@ r = img(:,:,1);
 g = img(:,:,2);
 b = img(:,:,3);
 
-K = 128;
-L = 16;
+K = 256;
+L = 4;
 
 %quantização para cada canal rgb
 [kmeansR, snrR, psnrR] = quantizacaoVetorialKmeans(L,K,r);

@@ -3,14 +3,14 @@ function [I_req, SNR, PSNR] = quantizacaoVetorialKmeans(L,K,Img)
 %% compressão por quantização vetorial
 % entrada:-> imagem em tons de cinza
 % -------------------------------------------------------
-clc;
+%clc;
 %clear all;
-close all;
+%close all;
 tic;
 % -------------------------------------------------------
 % parametros de entrada L,K
 %L = 16; % tamanho do bloco,
-% bloco deve ser quadradao 4 = 2x2, 16=4x4. 64=8x8 (sugerido L=4)
+% bloco deve ser quadrado 4 = 2x2, 16=4x4. 64=8x8 (sugerido L=4)
 %K = 128; % tamanho do dicionário (sugerido K = 16)
 % -------------------------------------------------------
 
@@ -29,23 +29,26 @@ if r1~=0
     for j = 1:r1
         Pad_rows(j,:) = Pad_rows(1,:); % 1 linha a mais
     end
-    Img1(1:Img2D_rows,1:Img2D_cols) = Img;
     Img1(Img2D_rows+1:end,1:Img2D_cols) = Pad_rows;
 end
-if r1~=0 && r2~=0
+if r2~=0
     Pad_cols = Img1(:,Img2D_cols);
     for j = 1:r2
         Pad_cols(:,j) = Pad_cols(:,1); % 1 coluna a mais
     end
     Img1(1:end,Img2D_cols+1:end) = Pad_cols;
-elseif r2~=0
-    Pad_cols = Img(:,Img2D_cols);
-    for j = 1:sqrt(L)-r2
+end
+if r1~=0 && r2~=0
+    Pad_rows = Img1(end,:);
+    for j = 1:r1
+        Pad_rows(j,:) = Pad_rows(1,:); % 1 linha a mais
+    end
+    Img1(Img2D_rows+1:end,:) = Pad_rows;
+    Pad_cols = Img1(:,end);
+    for j = 1:r2
         Pad_cols(:,j) = Pad_cols(:,1); % 1 coluna a mais
     end
-    Img1(1:Img2D_rows,1:Img2D_cols) = Img;
-    
-    Img1(1:Img2D_rows,Img2D_cols+1:end) = Pad_cols;
+    Img1(:,Img2D_cols+1:end) = Pad_cols;
 end
 % -------------------------------------------------------
 % prepara os dados e chama o algoritmo do kmeans
